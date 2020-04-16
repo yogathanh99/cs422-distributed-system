@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+
+import * as actions from './store/actions';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App({ fetchMessages, loading, messages, errorMessage }) {
+  useEffect(() => {
+    fetchMessages();
+  }, [fetchMessages]);
+
+  return <div className='App'>Hello</div>;
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  loading: state.loading,
+  messages: state.messages,
+  errorMessage: state.errorMessage,
+});
+
+const mapDispatchToProps = {
+  fetchMessages: actions.fetchMessages,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
