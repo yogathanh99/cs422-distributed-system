@@ -1,25 +1,23 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import { Container, AppBar, Typography } from '@material-ui/core';
+import ButterToast, { POS_RIGHT, POS_TOP } from 'butter-toast';
 
-import * as actions from './store/actions';
+import PostMessages from './components/PostMessages';
 import './App.css';
 
-function App({ fetchMessages, loading, messages, errorMessage }) {
-  useEffect(() => {
-    fetchMessages();
-  }, [fetchMessages]);
-
-  return <div className='App'>Hello</div>;
+function App() {
+  return (
+    <div className='App'>
+      <Container maxWidth='lg'>
+        <AppBar position='static' color='inherit'>
+          <Typography variant='h2' align='center'>
+            Post Box
+          </Typography>
+        </AppBar>
+        <PostMessages />
+        <ButterToast position={{ vertical: POS_TOP, horizontal: POS_RIGHT }} />
+      </Container>
+    </div>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  loading: state.loading,
-  messages: state.messages,
-  errorMessage: state.errorMessage,
-});
-
-const mapDispatchToProps = {
-  fetchMessages: actions.fetchMessages,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

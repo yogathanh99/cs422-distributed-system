@@ -10,7 +10,6 @@ router
 
 router
   .route('/:id')
-  .get(messageControllers.getMessage)
   .patch(messageControllers.updateMessage)
   .delete(messageControllers.deleteMessage);
 

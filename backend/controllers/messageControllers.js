@@ -23,24 +23,6 @@ exports.postMessage = async (req, res) => {
   });
 };
 
-exports.getMessage = async (req, res) => {
-  const message = await Message.findById(req.params.id);
-
-  if (!message) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'Invalid ID',
-    });
-  } else {
-    res.status(201).json({
-      status: 'success',
-      data: {
-        message,
-      },
-    });
-  }
-};
-
 exports.updateMessage = async (req, res) => {
   const message = await Message.findByIdAndUpdate(req.params.id, req.body, {
     new: true,

@@ -12,7 +12,7 @@ export const fetchMessages = () => async (dispatch) => {
     .then((res) => {
       dispatch({
         type: actionTypes.GET_MESSAGES_SUCCESS,
-        payload: res.data.data,
+        payload: res.data.data.messages,
       });
     })
     .catch((err) => {
@@ -21,7 +21,7 @@ export const fetchMessages = () => async (dispatch) => {
   dispatch({ type: actionTypes.GET_MESSAGES_END });
 };
 
-export const createMessage = (data) => async (dispatch) => {
+export const createMessage = (data, onSuccess) => async (dispatch) => {
   dispatch({ type: actionTypes.POST_MESSAGE_START });
 
   await axios
@@ -29,8 +29,9 @@ export const createMessage = (data) => async (dispatch) => {
     .then((res) => {
       dispatch({
         type: actionTypes.POST_MESSAGE_SUCCESS,
-        payload: res.data.data,
+        payload: res.data.data.message,
       });
+      onSuccess();
     })
     .catch((err) => {
       dispatch({ type: actionTypes.POST_MESSAGE_FAIL, payload: err.message });
@@ -38,19 +39,37 @@ export const createMessage = (data) => async (dispatch) => {
   dispatch({ type: actionTypes.POST_MESSAGE_END });
 };
 
-export const fetchMessage = (id) => async (dispatch) => {
-  dispatch({ type: actionTypes.GET_MESSAGE_START });
+export const updateMessage = (id, data, onSuccess) => async (dispatch) => {
+  dispatch({ type: actionTypes.UPDATE_MESSAGE_START });
 
   await axios
-    .get(URL + id)
+    .patch(URL + id, data)
     .then((res) => {
       dispatch({
-        type: actionTypes.GET_MESSAGE_SUCCESS,
-        payload: res.data.data,
+        type: actionTypes.UPDATE_MESSAGE_SUCCESS,
+        payload: res.data.data.message,
       });
+      onSuccess();
     })
     .catch((err) => {
-      dispatch({ type: actionTypes.GET_MESSAGE_FAIL, payload: err.message });
+      dispatch({ type: actionTypes.UPDATE_MESSAGE_FAIL, payload: err.message });
     });
-  dispatch({ type: actionTypes.GET_MESSAGE_END });
+
+  dispatch({ type: actionTypes.UPDATE_MESSAGE_END });
+};
+
+export const deleteMessage = (id, onSuccess) => async (dispatch) => {
+  dispatch({ type: actionTypes.DELETE_MESSAGE_START });
+
+  await axios
+    .delete(URL + id)
+    .then(() => {
+      dispatch({ type: actionTypes.DELETE_MESSAGE_SUCCESS, payload: id });
+      onSuccess();
+    })
+    .catch((err) =>
+      dispatch({ type: actionTypes.DELETE_MESSAGE_FAIL, payload: err.message }),
+    );
+
+  dispatch({ type: actionTypes.DELETE_MESSAGE_END });
 };
