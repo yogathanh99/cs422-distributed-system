@@ -1,9 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initState = {
-  loading: true,
+  loading: false,
   messages: [],
-  message: null,
   errorMessage: null,
 };
 
@@ -36,37 +35,31 @@ const reducers = (state = initState, actions) => {
     case actionTypes.POST_MESSAGE_START:
       return {
         ...state,
-        loading: true,
         errorMessage: null,
       };
     case actionTypes.POST_MESSAGE_SUCCESS:
       return {
         ...state,
-        loading: false,
         messages: [...state.messages, actions.payload],
       };
     case actionTypes.POST_MESSAGE_FAIL:
       return {
         ...state,
-        loading: false,
         errorMessage: actions.payload,
       };
     case actionTypes.POST_MESSAGE_END:
       return {
         ...state,
-        loading: false,
         errorMessage: null,
       };
     case actionTypes.UPDATE_MESSAGE_START:
       return {
         ...state,
-        loading: true,
         errorMessage: null,
       };
     case actionTypes.UPDATE_MESSAGE_SUCCESS:
       return {
         ...state,
-        loading: false,
         messages: state.messages.map((x) =>
           x._id === actions.payload._id ? actions.payload : x,
         ),
@@ -74,37 +67,31 @@ const reducers = (state = initState, actions) => {
     case actionTypes.UPDATE_MESSAGE_FAIL:
       return {
         ...state,
-        loading: false,
         errorMessage: actions.payload,
       };
     case actionTypes.UPDATE_MESSAGE_END:
       return {
         ...state,
-        loading: false,
         errorMessage: null,
       };
     case actionTypes.DELETE_MESSAGE_START:
       return {
         ...state,
-        loading: true,
         errorMessage: null,
       };
     case actionTypes.DELETE_MESSAGE_SUCCESS:
       return {
         ...state,
-        loading: false,
         messages: state.messages.filter((x) => x._id !== actions.payload),
       };
     case actionTypes.DELETE_MESSAGE_FAIL:
       return {
         ...state,
-        loading: false,
         errorMessage: actions.payload,
       };
     case actionTypes.DELETE_MESSAGE_END:
       return {
         ...state,
-        loading: false,
         errorMessage: null,
       };
     default:

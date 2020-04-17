@@ -1,8 +1,7 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-const PORT = '192.168.100.6';
-const URL = `http://${PORT}:4000/api/v1/messages/`;
+const URL = `http://localhost:4000/api/v1/messages/`;
 
 export const fetchMessages = () => async (dispatch) => {
   dispatch({ type: actionTypes.GET_MESSAGES_START });

@@ -11,7 +11,7 @@ function App() {
       <Container maxWidth='lg'>
         <AppBar position='static' color='inherit'>
           <Typography variant='h2' align='center'>
-            Post Box
+            Box Messages
           </Typography>
         </AppBar>
         <PostMessages />
@@ -20,4 +20,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

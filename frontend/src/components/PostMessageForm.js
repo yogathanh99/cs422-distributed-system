@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { TextField, withStyles, Button } from '@material-ui/core';
-import ButterToast, { Cinnamon } from 'butter-toast';
 import { AssignmentTurnedIn } from '@material-ui/icons';
+import ButterToast, { Cinnamon } from 'butter-toast';
 
 import * as actions from '../store/actions';
 import useForm from '../utils/useForm';
@@ -38,7 +38,7 @@ const PostMessageForm = ({
       });
       setErrors({});
     }
-  }, [currentId]);
+  }, [currentId, messages]);
 
   const initValue = {
     title: '',
@@ -70,7 +70,7 @@ const PostMessageForm = ({
       ButterToast.raise({
         content: (
           <Cinnamon.Crisp
-            title='Post Box'
+            title='Box Messages'
             content='Submitted successfully'
             scheme={Cinnamon.Crisp.SCHEME_PURPLE}
             icon={<AssignmentTurnedIn />}

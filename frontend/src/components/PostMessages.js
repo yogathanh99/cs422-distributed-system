@@ -11,10 +11,11 @@ import {
   Divider,
   Button,
 } from '@material-ui/core';
-import ButterToast, { Cinnamon } from 'butter-toast';
 import { DeleteSweep } from '@material-ui/icons';
+import ButterToast, { Cinnamon } from 'butter-toast';
 
 import PostMessageForm from './PostMessageForm';
+import { Loading } from './Loading';
 import * as actions from '../store/actions';
 
 const styles = (theme) => ({
@@ -30,7 +31,13 @@ const styles = (theme) => ({
   },
 });
 
-const PostMessages = ({ classes, fetchMessages, deleteMessage, messages }) => {
+const PostMessages = ({
+  classes,
+  fetchMessages,
+  deleteMessage,
+  messages,
+  loading,
+}) => {
   const [currentId, setCurrentId] = useState(0);
 
   useEffect(() => {
@@ -42,7 +49,7 @@ const PostMessages = ({ classes, fetchMessages, deleteMessage, messages }) => {
       ButterToast.raise({
         content: (
           <Cinnamon.Crisp
-            title='Post Box'
+            title='Box Messages'
             content='Deleted successfully'
             scheme={Cinnamon.Crisp.SCHEME_PURPLE}
             icon={<DeleteSweep />}
@@ -63,39 +70,43 @@ const PostMessages = ({ classes, fetchMessages, deleteMessage, messages }) => {
       </Grid>
       <Grid item xs={7}>
         <Paper className={classes.paper}>
-          <List>
-            {messages.map((message, index) => (
-              <Fragment key={index}>
-                <ListItem>
-                  <ListItemText>
-                    <Typography variant='h5'>{message.title}</Typography>
-                    <div>{message.info}</div>
-                    <div className={classes.actionDiv}>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        size='small'
-                        className={classes.smMargin}
-                        onClick={() => setCurrentId(message._id)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant='contained'
-                        color='secondary'
-                        size='small'
-                        className={classes.smMargin}
-                        onClick={() => onDelete(message._id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </ListItemText>
-                </ListItem>
-                <Divider component='li' />
-              </Fragment>
-            ))}
-          </List>
+          {loading ? (
+            <Loading />
+          ) : (
+            <List>
+              {messages.map((message) => (
+                <Fragment key={message._id}>
+                  <ListItem>
+                    <ListItemText>
+                      <Typography variant='h5'>{message.title}</Typography>
+                      <div>{message.info}</div>
+                      <div className={classes.actionDiv}>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          size='small'
+                          className={classes.smMargin}
+                          onClick={() => setCurrentId(message._id)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant='contained'
+                          color='secondary'
+                          size='small'
+                          className={classes.smMargin}
+                          onClick={() => onDelete(message._id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </ListItemText>
+                  </ListItem>
+                  <Divider component='li' />
+                </Fragment>
+              ))}
+            </List>
+          )}
         </Paper>
       </Grid>
     </Grid>
@@ -105,8 +116,6 @@ const PostMessages = ({ classes, fetchMessages, deleteMessage, messages }) => {
 const mapStateToProps = (state) => ({
   loading: state.loading,
   messages: state.messages,
-  message: state.message,
-  errorMessage: state.errorMessage,
 });
 
 const mapDispatchToProps = {
